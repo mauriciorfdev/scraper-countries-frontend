@@ -1,0 +1,22 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.section {
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.button-container {
+  justify-content: space-around;
+}
+.table-container {
+  border: 1px solid gray;
+}
