@@ -1,7 +1,12 @@
-import './countriesTable.css';
+import './dataTable.css';
 import Table from 'react-bootstrap/Table';
 
-const CountriesTable = () => {
+interface Country {
+  name: string;
+  capital: string;
+}
+
+const DataTable = ({ data }: { data: Country[] }) => {
   return (
     <div>
       <Table>
@@ -24,4 +29,4 @@ const CountriesTable = () => {
   );
 };
 
-export default CountriesTable;
+export default DataTable;

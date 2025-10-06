@@ -1,11 +1,13 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CountriesTable from '../components/countries-table/CountriesTable';
+import DataTable from '../components/data-table/DataTable';
 import { BsDatabaseFillX } from 'react-icons/bs';
 import { SiPuppeteer } from 'react-icons/si';
 import CustomButton from '../components/custom-button/CustomButton';
+import { useState } from 'react';
 
 function App() {
+  const [countries, setCountries] = useState([]);
   return (
     <>
       <h1>MERN + Puppeteer</h1>
@@ -14,7 +16,7 @@ function App() {
         <CustomButton name='Delete BD' Icon={BsDatabaseFillX} />
       </div>
       <div className='table-container section'>
-        <CountriesTable></CountriesTable>
+        <DataTable data={countries}></DataTable>
       </div>
     </>
   );
