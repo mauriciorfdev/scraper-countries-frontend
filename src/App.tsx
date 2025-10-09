@@ -1,20 +1,32 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DataTable from '../components/data-table/DataTable';
+import CustomButton from '../components/custom-button/CustomButton';
 import { BsDatabaseFillX } from 'react-icons/bs';
 import { SiPuppeteer } from 'react-icons/si';
-import CustomButton from '../components/custom-button/CustomButton';
 import { useState } from 'react';
-
-async function handleFetch() {
-  console.log('FETCH DATA!');
-}
-async function handleClear() {
-  console.log('CLEAR DATA!');
-}
+import type { Country } from './types/index';
 
 function App() {
-  const [countries, setCountries] = useState([]);
+  const [countries, setCountries] = useState<Country[]>([]);
+
+  async function handleFetch() {
+    console.log('FETCH DATA!');
+    const url = 'http://localhost:5000/api/countries';
+    try {
+      const resp = await fetch(url);
+      const data = await resp.json();
+      console.log(data);
+      setCountries(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function handleClear() {
+    console.log('CLEAR DATA!');
+    console.log(import.meta.env.PROD);
+  }
+
   return (
     <>
       <h1>MERN + Puppeteer</h1>
@@ -31,7 +43,11 @@ function App() {
         />
       </div>
       <div className='table-container section'>
-        <DataTable data={countries}></DataTable>
+        {countries.length === 0 ? (
+          <p>No Data</p>
+        ) : (
+          <DataTable data={countries}></DataTable>
+        )}
       </div>
     </>
   );

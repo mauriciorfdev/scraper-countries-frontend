@@ -1,10 +1,6 @@
 import './dataTable.css';
 import Table from 'react-bootstrap/Table';
-
-interface Country {
-  name: string;
-  capital: string;
-}
+import type { Country } from '../../src/types/index';
 
 const DataTable = ({ data }: { data: Country[] }) => {
   return (
@@ -18,11 +14,15 @@ const DataTable = ({ data }: { data: Country[] }) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>peru</td>
-            <td>lima</td>
-          </tr>
+          {data.map((country, index) => {
+            return (
+              <tr>
+                <td>{index + 1}</td>
+                <td>{country.name}</td>
+                <td>{country.capital}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </div>
