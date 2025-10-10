@@ -16,7 +16,7 @@ const DataTable = ({ data }: { data: Country[] }) => {
         <tbody>
           {data.map((country, index) => {
             return (
-              <tr>
+              <tr key={country._id}>
                 <td>{index + 1}</td>
                 <td>{country.name}</td>
                 <td>{country.capital}</td>

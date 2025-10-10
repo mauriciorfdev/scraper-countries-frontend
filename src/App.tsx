@@ -4,16 +4,21 @@ import DataTable from '../components/data-table/DataTable';
 import CustomButton from '../components/custom-button/CustomButton';
 import { BsDatabaseFillX } from 'react-icons/bs';
 import { SiPuppeteer } from 'react-icons/si';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Country } from './types/index';
 
 function App() {
   const [countries, setCountries] = useState<Country[]>([]);
+  const API_URL = import.meta.env.VITE_API_URL;
 
-  async function handleFetch() {
-    console.log('FETCH DATA!');
-    const url = 'http://localhost:5000/api/countries';
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    const url = `${API_URL}/api/countries`;
     try {
+      console.log('fetching data...');
       const resp = await fetch(url);
       const data = await resp.json();
       console.log(data);
@@ -22,9 +27,25 @@ function App() {
       console.log(error);
     }
   }
+
+  async function handleScrape() {
+    const url = `${API_URL}/scrape`;
+    try {
+      console.log('scraping...');
+      await fetch(url, { method: 'POST' });
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async function handleClear() {
-    console.log('CLEAR DATA!');
-    console.log(import.meta.env.PROD);
+    const url = `${API_URL}/clear`;
+    try {
+      await fetch(url, { method: 'DELETE' });
+      setCountries([]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -34,7 +55,7 @@ function App() {
         <CustomButton
           name='Scrap with Puppeteer'
           Icon={SiPuppeteer}
-          onHandleClick={handleFetch}
+          onHandleClick={handleScrape}
         />
         <CustomButton
           name='Delete BD'
@@ -44,7 +65,7 @@ function App() {
       </div>
       <div className='table-container section'>
         {countries.length === 0 ? (
-          <p>No Data</p>
+          <h1>No Data</h1>
         ) : (
           <DataTable data={countries}></DataTable>
         )}
