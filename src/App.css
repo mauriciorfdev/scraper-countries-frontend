@@ -20,3 +20,14 @@
 .table-container {
   border: 1px solid gray;
 }
+.fade-in-elem {
+  animation: fadeIn 0.5s ease-in;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}

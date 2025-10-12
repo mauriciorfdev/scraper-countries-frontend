@@ -9,6 +9,9 @@ import type { Country } from './types/index';
 
 function App() {
   const [countries, setCountries] = useState<Country[]>([]);
+  const [loadingScrape, setLoadingScrape] = useState<boolean>(false);
+  const [loadingClear, setLoadingClear] = useState<boolean>(false);
+  const [loadingData, setLoadingData] = useState<boolean>(false);
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -19,12 +22,20 @@ function App() {
     const url = `${API_URL}/api/countries`;
     try {
       console.log('fetching data...');
+      setLoadingData(true);
       const resp = await fetch(url);
+      /* await new Promise((res) =>
+        setTimeout(() => {
+          res('asd');
+        }, 3000)
+      ); */
       const data = await resp.json();
       console.log(data);
       setCountries(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingData(false);
     }
   }
 
@@ -32,40 +43,60 @@ function App() {
     const url = `${API_URL}/scrape`;
     try {
       console.log('scraping...');
+      setLoadingScrape(true);
       await fetch(url, { method: 'POST' });
       fetchData();
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingScrape(false);
     }
   }
   async function handleClear() {
     const url = `${API_URL}/clear`;
     try {
+      setLoadingClear(true);
       await fetch(url, { method: 'DELETE' });
       setCountries([]);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingClear(false);
     }
   }
 
   return (
     <>
       <h1>MERN + Puppeteer</h1>
+
       <div className='button-container section'>
         <CustomButton
-          name='Scrap with Puppeteer'
+          name={loadingScrape ? 'Scraping...' : 'Scrape with Puppeteer'}
           Icon={SiPuppeteer}
           onHandleClick={handleScrape}
+          isLoading={loadingScrape}
         />
         <CustomButton
-          name='Delete BD'
+          name={loadingClear ? 'Deleting...' : 'Delete DB'}
           Icon={BsDatabaseFillX}
           onHandleClick={handleClear}
+          isLoading={loadingClear}
         />
       </div>
+
       <div className='table-container section'>
-        {countries.length === 0 ? (
-          <h1>No Data</h1>
+        {loadingData ? (
+          <div>
+            <h1 key={'loading'} className='fade-in-elem'>
+              Loading Data...
+            </h1>
+          </div>
+        ) : countries.length === 0 ? (
+          <div>
+            <h1 key={'no-data'} className='fade-in-elem'>
+              No Data
+            </h1>
+          </div>
         ) : (
           <DataTable data={countries}></DataTable>
         )}
