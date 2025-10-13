@@ -5,18 +5,28 @@ import CustomButton from '../components/custom-button/CustomButton';
 import { BsDatabaseFillX } from 'react-icons/bs';
 import { SiPuppeteer } from 'react-icons/si';
 import { useEffect, useState } from 'react';
-import type { Country } from './types/index';
+import type { Country, ThemeMode } from './types/index';
+import { LuMoon } from 'react-icons/lu';
+import { LuSun } from 'react-icons/lu';
+import Button from 'react-bootstrap/Button';
 
 function App() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [loadingScrape, setLoadingScrape] = useState<boolean>(false);
   const [loadingClear, setLoadingClear] = useState<boolean>(false);
   const [loadingData, setLoadingData] = useState<boolean>(false);
+
+  const [theme, setTheme] = useState<ThemeMode>('light');
+
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    document.body.setAttribute('data-bs-theme', theme);
+  }, [theme]);
 
   async function fetchData() {
     const url = `${API_URL}/api/countries`;
@@ -24,11 +34,6 @@ function App() {
       console.log('fetching data...');
       setLoadingData(true);
       const resp = await fetch(url);
-      /* await new Promise((res) =>
-        setTimeout(() => {
-          res('asd');
-        }, 3000)
-      ); */
       const data = await resp.json();
       console.log(data);
       setCountries(data);
@@ -65,8 +70,19 @@ function App() {
     }
   }
 
+  function handleTheme() {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+  }
+
   return (
     <>
+      <div className='fixed-div'>
+        <Button onClick={handleTheme}>
+          {theme === 'light' ? <LuSun /> : <LuMoon />}
+        </Button>
+      </div>
+
       <h1>MERN + Puppeteer</h1>
 
       <div className='button-container section'>

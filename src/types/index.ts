@@ -3,3 +3,5 @@ export type Country = {
   name: string;
   capital: string;
 };
+
+export type ThemeMode = 'light' | 'dark';
