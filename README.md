@@ -1,4 +1,4 @@
-# Scraper Countries Project - Frontend
+# Scraper Countries - Frontend
 
 ## About Project
 

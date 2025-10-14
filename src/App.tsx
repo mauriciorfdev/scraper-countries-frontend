@@ -1,14 +1,20 @@
 import './App.css';
+import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import DataTable from '../components/data-table/DataTable';
 import CustomButton from '../components/custom-button/CustomButton';
+import ThemeButton from '../components/theme-button/ThemeButton';
+
+import type { Country } from './types/index';
 import { BsDatabaseFillX } from 'react-icons/bs';
 import { SiPuppeteer } from 'react-icons/si';
-import { useEffect, useState } from 'react';
-import type { Country, ThemeMode } from './types/index';
-import { LuMoon } from 'react-icons/lu';
-import { LuSun } from 'react-icons/lu';
-import Button from 'react-bootstrap/Button';
+
+import {
+  loadCountries,
+  scrapeCountries,
+  clearCountries,
+} from './services/api.js';
 
 function App() {
   const [countries, setCountries] = useState<Country[]>([]);
@@ -16,25 +22,15 @@ function App() {
   const [loadingClear, setLoadingClear] = useState<boolean>(false);
   const [loadingData, setLoadingData] = useState<boolean>(false);
 
-  const [theme, setTheme] = useState<ThemeMode>('light');
-
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    document.body.setAttribute('data-bs-theme', theme);
-  }, [theme]);
-
   async function fetchData() {
-    const url = `${API_URL}/api/countries`;
     try {
       console.log('fetching data...');
       setLoadingData(true);
-      const resp = await fetch(url);
-      const data = await resp.json();
+      const data = await loadCountries();
       console.log(data);
       setCountries(data);
     } catch (error) {
@@ -45,12 +41,11 @@ function App() {
   }
 
   async function handleScrape() {
-    const url = `${API_URL}/scrape`;
     try {
       console.log('scraping...');
       setLoadingScrape(true);
-      await fetch(url, { method: 'POST' });
-      fetchData();
+      await scrapeCountries(); //scraping countries
+      fetchData(); //refresh countries
     } catch (error) {
       console.log(error);
     } finally {
@@ -58,10 +53,9 @@ function App() {
     }
   }
   async function handleClear() {
-    const url = `${API_URL}/clear`;
     try {
       setLoadingClear(true);
-      await fetch(url, { method: 'DELETE' });
+      await clearCountries();
       setCountries([]);
     } catch (error) {
       console.log(error);
@@ -70,18 +64,9 @@ function App() {
     }
   }
 
-  function handleTheme() {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-  }
-
   return (
     <>
-      <div className='fixed-div'>
-        <Button onClick={handleTheme}>
-          {theme === 'light' ? <LuSun /> : <LuMoon />}
-        </Button>
-      </div>
+      <ThemeButton />
 
       <h1>MERN + Puppeteer</h1>
 
@@ -103,15 +88,15 @@ function App() {
       <div className='table-container section'>
         {loadingData ? (
           <div>
-            <h1 key={'loading'} className='fade-in-elem'>
+            <h2 key={'loading'} className='fade-in-elem'>
               Loading Data...
-            </h1>
+            </h2>
           </div>
         ) : countries.length === 0 ? (
           <div>
-            <h1 key={'no-data'} className='fade-in-elem'>
+            <h2 key={'no-data'} className='fade-in-elem'>
               No Data
-            </h1>
+            </h2>
           </div>
         ) : (
           <DataTable data={countries}></DataTable>

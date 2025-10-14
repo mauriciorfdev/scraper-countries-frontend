@@ -5,7 +5,7 @@ import type { Country } from '../../src/types/index';
 const DataTable = ({ data }: { data: Country[] }) => {
   return (
     <div>
-      <Table>
+      <Table striped hover>
         <thead>
           <tr>
             <th>#</th>
