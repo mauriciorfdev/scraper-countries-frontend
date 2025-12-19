@@ -19,7 +19,7 @@ const ThemeButton = () => {
   return (
     <div className='fixed-div'>
       <Button onClick={handleTheme}>
-        {theme === 'light' ? <LuSun /> : <LuMoon />}
+        {theme === 'light' ? <LuSun size={20} /> : <LuMoon size={20} />}
       </Button>
     </div>
   );

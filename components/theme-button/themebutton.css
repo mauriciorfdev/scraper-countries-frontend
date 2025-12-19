@@ -7,4 +7,5 @@
 .fixed-div button {
   padding: 1rem;
   border-radius: 50%;
+  box-shadow: var(--theme-button-shadow);
 }

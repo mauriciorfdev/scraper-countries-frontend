@@ -31,3 +31,9 @@
     opacity: 100%;
   }
 }
+:root {
+  --theme-button-shadow: rgb(100, 100, 100) 0px 0px 8px 0.1px;
+}
+[data-bs-theme='dark'] {
+  --theme-button-shadow: rgb(255, 255, 255) 0px 0px 8px 0.1px;
+}
