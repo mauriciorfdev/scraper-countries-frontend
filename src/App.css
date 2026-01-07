@@ -6,8 +6,7 @@
 }
 
 .section {
-  padding: 2rem;
-  margin: 1rem;
+  padding: 1rem;
   border-radius: 1rem;
   display: flex;
   justify-content: center;
@@ -16,6 +15,7 @@
 }
 .button-container {
   justify-content: space-around;
+  margin: 1rem 0;
 }
 .table-container {
   border: 1px solid gray;

@@ -18,10 +18,10 @@ const CustomButton = ({
   isLoading,
 }: ButtonProps) => {
   return (
-    <Button size='lg' onClick={onHandleClick} disabled={isLoading}>
+    <Button onClick={onHandleClick} disabled={isLoading}>
       {isLoading && <Spinner animation='grow' />}
-      <span style={{ padding: '0.5rem' }}>{<Icon />}</span>
-      <span style={{ padding: '1px solid red' }}>{name}</span>
+      {<Icon />}
+      <span style={{ padding: '1px' }}>{name}</span>
     </Button>
   );
 };
