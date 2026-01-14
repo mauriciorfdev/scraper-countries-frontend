@@ -1,4 +1,4 @@
-# Scraper Countries - Frontend
+# Scraper Countries — Frontend
 
 ## About
 
@@ -28,3 +28,7 @@ Built with React + Vite and React Bootstrap, this project served as a TypeScript
 2. Install NPM packages: `npm install`
 3. Set up `.env` file: `VITE_API_URL = your_string`
 4. Run the server: `npm run dev`
+
+## Related Repository
+
+Backend (Express + Puppeteer): [Github Repo](https://github.com/mauriciorfdev/scraper-countries).
